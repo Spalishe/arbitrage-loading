@@ -114,6 +114,7 @@ async function loadAvatar(steamid) {
 		}
 
 		const data = await response.json(); // Parse JSON body
+		console.log(data);
 		$("#welcome_name").html(data.name);
 		$(".avatar").css(
 			"background-image",
@@ -196,10 +197,9 @@ $(document).ready(function() {
 				"Serverurl",
 				"Mapname",
 				"Maxplayers",
-				"SteamID",
+				"76561199555137115",
 				"Gamemode"
 			);
-			loadAvatar(0);
 
 			var totalTestFiles = 100;
 			SetFilesTotal(totalTestFiles);
