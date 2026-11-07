@@ -1,56 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script type="text/javascript">
-      document.write(
-        '<link rel="stylesheet" href="main.css?' + Math.random() + '">'
-      );
-    </script>
-    <link
-      href="https://fonts.googleapis.com/css?family=Ubuntu|Ubuntu+Condensed|Ubuntu+Mono&display=swap"
-      rel="stylesheet"
-    />
-    <!-- <link rel="stylesheet" href="css/main.css" /> -->
-    <title>Loading Screen | By Exsite</title>
-  </head>
-  <body>
-    <div class="background"></div>
-    <div class="avatar"></div>
-    <div class="overhaul"></div>
-
-    <nav>
-      <div id="announcement"></div>
-      <span id="map">You're playing on </span>
-      <span id="welcome">Welcome, </span>
-      <span id="welcome_name">Name</span>
-      <span id="steamid"></span>
-    </nav>
-
-    <div id="debug"></div>
-
-    <main>
-      <div class="title">
-        <h2>Welcome to</h2>
-        <h1 id="title"></h1>
-        <div id="history"></div>
-      </div>
-      <div class="under-nav"></div>
-      <div class="loading-box"></div>
-    </main>
-
-    <script src="js/lib/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-      document.write(
-        '<script src="js/config.js?' + Math.random() + '"><\/script>'
-      );
-      document.write(
-        '<script src="js/main.js?' + Math.random() + '"><\/script>'
-      );
-    </script>
-    <!-- <script src="config.js"></script> -->
-    <!-- <script src="js/main.js"></script> -->
-  </body>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Rompa — загрузка</title>
+<style>
+:root { color-scheme:dark; }
+* { box-sizing:border-box; }
+html,body { width:100%; height:100%; margin:0; background:#080e0c; }
+body { color:#f4faf6; font-family:Arial,Helvetica,sans-serif; overflow:hidden; }
+.scene { position:fixed; top:0; right:0; bottom:0; left:0; background:#101b16 url('background.png') center center / cover no-repeat; }
+.scene:after { content:""; position:absolute; top:0; right:0; bottom:0; left:0; background:linear-gradient(90deg,rgba(4,11,8,.88) 0%,rgba(5,14,10,.75) 50%,rgba(4,10,8,.49) 100%),linear-gradient(0deg,rgba(3,9,7,.84),transparent 58%); }
+.frame { position:relative; width:100%; height:100%; padding:clamp(24px,4vw,70px); display:flex; flex-direction:column; justify-content:space-between; }
+.header { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.brand { display:flex; align-items:center; gap:12px; color:#ecfff2; font-size:14px; font-weight:bold; letter-spacing:.18em; }
+.mark { width:8px; height:31px; background:#64f0a0; border-radius:3px; box-shadow:0 0 20px rgba(100,240,160,.35); }
+.badge { color:#b9d3c4; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+.main { max-width:730px; padding-bottom:3vh; }
+.eyebrow { display:flex; align-items:center; gap:13px; color:#8df6ba; font-size:13px; font-weight:bold; letter-spacing:.18em; text-transform:uppercase; }
+.eyebrow:before { content:""; display:block; width:32px; height:2px; background:#72f3a9; }
+h1 { margin:20px 0 17px; font-size:clamp(44px,5.3vw,82px); line-height:1.03; letter-spacing:-.045em; }
+.subtitle { max-width:520px; margin:0; color:#c7d8cd; font-size:clamp(16px,1.35vw,20px); line-height:1.6; }
+.footer { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
+.loading { width:min(520px,100%); padding:21px 24px 20px; border:1px solid rgba(155,217,176,.23); background:rgba(9,21,15,.86); border-radius:10px; }
+.loading-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.label { color:#eaf8ef; font-size:15px; font-weight:bold; }
+.pct { flex-shrink:0; color:#93f9be; font-size:14px; font-weight:bold; }
+.status { margin:9px 0 16px; color:#b4c9bb; font-size:14px; min-height:17px; }
+.track { height:4px; background:#30473a; overflow:hidden; border-radius:8px; }
+.fill { display:block; width:0; height:100%; background:#70f5a6; box-shadow:0 0 14px rgba(112,245,166,.6); transition:width .35s ease; }
+.track.wait .fill { width:28%; animation:waiting 1.8s ease-in-out infinite alternate; }
+@keyframes waiting { from { transform:translateX(-5%); } to { transform:translateX(265%); } }
+.footnote { margin-bottom:3px; text-align:right; color:#a0b9a9; font-size:12px; letter-spacing:.11em; text-transform:uppercase; }
+@media (max-width:600px) { .frame {padding:24px;} .badge,.footnote {display:none;} .main {padding-bottom:0;} h1 {font-size:44px;} .loading {padding:18px;} }
+@media (max-height:440px) { .main {padding:0;} h1 {margin:8px 0; font-size:40px;} .subtitle {font-size:15px;} .loading {padding:12px 16px;} .status {margin:5px 0 9px;} }
+@media (prefers-reduced-motion:reduce) { .track.wait .fill { animation:none; } .fill {transition:none;} }
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"></div>
+<div class="frame">
+  <header class="header"><div class="brand"><span class="mark" aria-hidden="true"></span>PROJECT ROMPA</div><div class="badge">Игровой сервер</div></header>
+  <main class="main"><div class="eyebrow">Скоро начнётся</div><h1>Добро пожаловать</h1><p class="subtitle">Подключаем тебя к серверу. Немного терпения — совсем скоро всё будет готово.</p></main>
+  <footer class="footer">
+    <section class="loading" aria-label="Состояние подключения" aria-live="polite">
+      <div class="loading-row"><span class="label">Подключение к серверу</span><span class="pct" id="percent"></span></div>
+      <p class="status" id="status">Подготавливаем подключение…</p>
+      <div class="track wait" id="track"><span class="fill" id="fill"></span></div>
+    </section>
+    <span class="footnote">Project Rompa&nbsp; · &nbsp;До встречи в игре</span>
+  </footer>
+</div>
+<script>
+(function () {
+  'use strict';
+  var total = null, needed = null, hasDownloaded = false;
+  var status = document.getElementById('status');
+  var percent = document.getElementById('percent');
+  var track = document.getElementById('track');
+  var fill = document.getElementById('fill');
+  function render() {
+    if (total !== null && total > 0 && needed !== null) {
+      var complete = Math.max(0, Math.min(total, total - needed));
+      var value = Math.floor(100 * complete / total);
+      track.className = 'track';
+      fill.style.width = value + '%';
+      percent.textContent = value + '% файлов';
+    } else {
+      track.className = 'track wait';
+      fill.style.width = '';
+      percent.textContent = '';
+    }
+  }
+  // Данные карты и имена файлов не выводятся: они могут содержать название карты.
+  window.GameDetails = function () { status.textContent = 'Подготавливаем подключение…'; };
+  window.SetFilesTotal = function (n) {
+    n = Number(n);
+    total = isFinite(n) && n >= 0 ? Math.floor(n) : null;
+    render();
+  };
+  window.SetFilesNeeded = function (n) {
+    n = Number(n);
+    needed = isFinite(n) && n >= 0 ? Math.floor(n) : null;
+    if (needed !== null && needed === 0 && total !== null && total > 0) status.textContent = 'Файлы загружены. Подготавливаем игру…';
+    else if (needed !== null && needed > 0) status.textContent = 'Загружаем игровые файлы…';
+    render();
+  };
+  window.DownloadingFile = function () { hasDownloaded = true; status.textContent = 'Загружаем игровые файлы…'; };
+  window.SetStatusChanged = function () { status.textContent = hasDownloaded ? 'Подготавливаем игру…' : 'Подготавливаем подключение…'; };
+  render();
+}());
+</script>
+</body>
 </html>
